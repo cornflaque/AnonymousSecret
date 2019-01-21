@@ -1,0 +1,9 @@
+{
+    "name": "AnonymousSecret",
+    "version": "0.0.1",
+    "description": "Serveur AnonymousSecret",
+    "dependencies": {
+        "socket.io": "latest"
+    },
+    "author": "Anthony BONNEFOIS, Doriane JAUNAULT, Mathilde PARIS, Thibault POULHALEC"
+}
