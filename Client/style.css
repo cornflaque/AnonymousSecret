@@ -6,3 +6,20 @@
   text-align : center;
   text-decoration : none;
 }
+
+body {
+  background-color: #170a48;
+}
+
+.message{
+  color : white;
+  font-size: 24px;
+  margin-bottom: 50px;
+}
+
+.centrer{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform:translate(-50%, -50%);
+}
