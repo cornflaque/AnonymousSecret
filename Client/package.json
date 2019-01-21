@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "Jeu entre amis",
     "dependencies": {
+        "bootstrap": "^4.2.1",
         "socket.io": "latest"
     },
     "author": "Anthony BONNEFOIS, Doriane JAUNAULT, Mathilde PARIS, Thibault POULHALEC"
