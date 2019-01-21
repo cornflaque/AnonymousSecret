@@ -1,5 +1,4 @@
-require('bootstrap');
-(function($){
+/*(function($){
 
   var socket = io.connect('http://localhost:8080');
 
@@ -12,4 +11,4 @@ require('bootstrap');
     });
   })
 
-})(jQuery);
+})(jQuery);*/
