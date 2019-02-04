@@ -1,5 +1,6 @@
 body {
   background-color: #170a48;
+  color : white;
 }
 
 .message{
@@ -13,4 +14,11 @@ body {
   top: 50%;
   left: 50%;
   transform:translate(-50%, -50%);
+}
+
+
+.table{
+  margin-bottom: 1rem;
+background-color: transparent;
+
 }
