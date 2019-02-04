@@ -7,20 +7,24 @@
   <!--CSS-->
   <link rel="stylesheet" href="style.css" />
 
-  <title>AnonymousSecret</title>
+  <title>Login</title>
 </head>
 
 <body>
 
-  <form class="centrer">
+<div class = centrer style="top:40%">
+  <img src="images/logo.png" style="max-height:250px">
+
+  <form>
     <div class="form-group">
-      <label for="name">Login</label>
       <input type="text" class="form-control" id="name" placeholder="Enter name">
     </div>
-    <button type="submit" class="btn btn-primary">C'est parti ! </button>
+    <button style="display: block; margin: auto" type="submit" class="btn btn-primary">C'est parti ! </button>
   </form>
+</div>
 
-  <script src="client.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
 </body>
 </html>

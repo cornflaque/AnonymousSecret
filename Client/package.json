@@ -4,7 +4,7 @@
     "description": "Jeu entre amis",
     "dependencies": {
         "bootstrap": "^4.2.1",
-        "socket.io": "latest"
+        "round-slider": "^1.3.3"
     },
     "author": "Anthony BONNEFOIS, Doriane JAUNAULT, Mathilde PARIS, Thibault POULHALEC"
 }
