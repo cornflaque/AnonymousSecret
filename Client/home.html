@@ -15,11 +15,15 @@
 <div class = centrer style="top:40%">
   <img src="images/logo.png" style="max-height:250px">
 
-  <form>
+  <form id="form">
     <div class="form-group">
-      <input type="text" class="form-control" id="name" placeholder="Enter name">
-    </div>
-    <button style="display: block; margin: auto" type="submit" class="btn btn-primary">C'est parti ! </button>
+      <input id="namejoueur" type="text" class="form-control" placeholder="Enter name">
+    <div>
+    <input id="nbjoueur" min = 3 max =10 style="margin-top: 10px" type="number" class="form-control" placeholder="Enter number">
+    <button id="btngame" style="margin-top: 10px" type="submit" class="btn btn-primary">Créer une partie</button>
+  </div>
+  </div>
+
   </form>
 </div>
 
