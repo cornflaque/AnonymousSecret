@@ -25,9 +25,28 @@ body {
   transform:translate(-50%, -50%);
 }
 
-
 .table{
   margin-bottom: 1rem;
-background-color: transparent;
+  background-color: transparent;
 
+}
+
+.title{
+  // mettre la même que dans les questions posées
+}
+
+#loading{
+  display: none;
+}
+
+#predict{
+  display: none;
+}
+
+#ranking{
+  display: none;
+}
+
+#result{
+  display: none;
 }
