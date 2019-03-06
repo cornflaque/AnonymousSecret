@@ -25,6 +25,34 @@ body {
   transform:translate(-50%, -50%);
 }
 
+.slider{
+  margin-top: 300px;
+  background-color: #170a48;
+}
+
+.rs-control .rs-range-color {
+    background-color: #4125ad;
+}
+.rs-control .rs-path-color {
+    background-color: #ffffff;
+}
+.rs-control .rs-handle {
+    background-color: #838383;
+}
+.rs-control .rs-bg-color {
+    background-color: #170a48;
+}
+
+.rs-tooltip.edit, .rs-tooltip .rs-input {
+  padding-top: 5px;
+  padding-right: 8px;
+  padding-bottom: 5px;
+  padding-left: 8px;
+  color: white;
+  font-size: 40px;
+}
+
+
 .table{
   margin-bottom: 1rem;
   background-color: transparent;
@@ -36,6 +64,10 @@ body {
 }
 
 #loading{
+  display: none;
+}
+
+#game{
   display: none;
 }
 
