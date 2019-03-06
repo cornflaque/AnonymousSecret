@@ -2,12 +2,13 @@
 
   var socket = io.connect('http://localhost:8080');
   // Pages du jeu
-  var pages = ['home', 'loading', 'predict', 'ranking', 'result']
+  var pages = ['home', 'loading', 'predict', 'ranking', 'result','game']
 
   $('#form').submit(function(event) {
     event.preventDefault();
     // TODO : prevenir si nbjoeurs est null
     socket.emit('newuser', $('#namejoueur').val(), $('#nbjoueur').val())
+    navigateTo('loading')
   });
 
   socket.on('newgame', function(){
@@ -26,6 +27,8 @@
 
   socket.on('beginningame', function(){
     // TODO
+    console.log("beginninggame_client")
+    navigateTo('game');
   })
 
   // Fonction pour naviguer entre les pages
@@ -48,3 +51,14 @@
   }
 
 })(jQuery);
+
+$("#slider").roundSlider({
+    width: 22,
+    radius: 100,
+    value: 0,
+    lineCap: "round",
+    sliderType: "min-range",
+    startAngle: 90,
+    max: "15",
+    mouseScrollAction: true
+});
