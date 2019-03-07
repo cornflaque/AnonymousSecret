@@ -17,8 +17,28 @@ var created = false;
 var users = new Array;
 var nbusers = 0;
 
+// Fonction pour naviguer entre les pages
+function createJoueur(name, score) {
+
+	var id = users.length + 1;
+	var joueur = {
+		id : id,
+		name : name,
+		score : score
+	}
+return joueur;
+}
+
+
 io.sockets.on('connection',function(socket) {
 
+	// Faire cas ici pour savoir quel bouton afficher
+	// Un joueur possède un id, un nom et un score
+	// Faire une tempo pour la page de résultat intermédiaire
+
+	if(created && users.length < nbusers){
+		socket.emit('joingame');
+	}
 	console.log('Nouveau utilisateur');
 
 	socket.on("newuser", function(namejoueur, nbjoueurs){
@@ -31,7 +51,9 @@ io.sockets.on('connection',function(socket) {
 		if(!created && nbjoueurs != null){
 			console.log("premier joueur")
 			nbusers = nbjoueurs;
-			users.push(namejoueur);
+			// On initialise le score à 0
+			users.push(createJoueur(namejoueur, 0));
+			console.log(users);
 			socket.emit('waitingothers');
 			created = true;
 			socket.broadcast.emit('joingame');
@@ -41,7 +63,8 @@ io.sockets.on('connection',function(socket) {
 		// Joining user
 		if(created && users.length < nbusers){
 			console.log("Joining user")
-			users.push(namejoueur);
+			users.push(createJoueur(namejoueur, 0));
+			console.log(users);
 			if(users.length == nbusers){
 				console.log("beginninggame")
 				socket.broadcast.emit('beginningame');
