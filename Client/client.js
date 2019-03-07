@@ -2,13 +2,13 @@
 
   var socket = io.connect('http://localhost:8080');
   // Pages du jeu
-  var pages = ['home', 'loading', 'predict', 'ranking', 'result','game']
+  var pages = ['home', 'loading_page', 'predict', 'ranking', 'result','game']
 
   $('#form').submit(function(event) {
     event.preventDefault();
     // TODO : prevenir si nbjoeurs est null
     socket.emit('newuser', $('#namejoueur').val(), $('#nbjoueur').val())
-    navigateTo('loading')
+    navigateTo('loading_page')
   });
 
   socket.on('newgame', function(){
@@ -22,7 +22,7 @@
 
   socket.on('waitingothers', function(){
     console.log("waiting");
-    navigateTo("loading");
+    navigateTo("loading_page");
   })
 
   socket.on('beginningame', function(){
