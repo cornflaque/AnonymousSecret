@@ -31,6 +31,12 @@
     navigateTo('game');
   })
 
+  socket.on('finVote', function(){
+    // TODO
+    console.log("finVote")
+    navigateTo('predict');
+  })
+
   // Fonction pour naviguer entre les pages
   function navigateTo(page) {
     // Si la page existe, on affiche celle-ci et on cache toutes les autres
@@ -51,28 +57,13 @@
   }
 
   $('#true1').click(function () {
-
-  socket.emit('boolean', 1);
-  navigateTo("loading_page");
-
+      socket.emit('vote', 1);
+      navigateTo("loading_page");
   })
 
   $('#false1').click(function () {
-
-  socket.emit('boolean', 0);
-  navigateTo("loading_page");
-
+    socket.emit('vote', 0);
+    navigateTo("loading_page");
   })
 
 })(jQuery);
-
-$("#slider").roundSlider({
-    width: 22,
-    radius: 100,
-    value: 0,
-    lineCap: "round",
-    sliderType: "min-range",
-    startAngle: 90,
-    max: "15",
-    mouseScrollAction: true
-});
