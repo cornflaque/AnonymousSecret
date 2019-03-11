@@ -32,11 +32,15 @@ function createJoueur(name, score) {
 io.sockets.on('connection',function(socket) {
 
 	// Faire une tempo pour la page de résultat intermédiaire
+
+  
+  //Vote du joueur
 	socket.on('boolean', function (boolean) {
 
       console.log('Joueur a voter: ' + boolean);
 
     });
+  
 	if(created && users.length < nbusers){
 		socket.emit('joingame');
 	}
