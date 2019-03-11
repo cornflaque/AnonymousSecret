@@ -50,6 +50,20 @@
     }
   }
 
+  $('#true1').click(function () {
+
+  socket.emit('boolean', 1);
+  navigateTo("loading_page");
+
+  })
+
+  $('#false1').click(function () {
+
+  socket.emit('boolean', 0);
+  navigateTo("loading_page");
+
+  })
+
 })(jQuery);
 
 $("#slider").roundSlider({
