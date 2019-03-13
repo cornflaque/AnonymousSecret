@@ -4,8 +4,12 @@ Le principe est simple, on pose la même question à tous les joueurs, ils doive
 La deuxième étape consiste à prédir le nombre de personne ayant répondu oui à la question.
 Le joueur se trompant le moins tout au long des tours du jeu, gagne la partie.
 
-#Auteurs
+# Auteurs
 Anthony Bonnefois
 Doriane Jaunault
 Mathilde Paris
 Thibault Poulhalec
+
+# Axes d'améliorations
+1. Pouvoir créer plusieurs parties
+2. Créer plusieurs modes de jeu
