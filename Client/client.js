@@ -56,13 +56,13 @@
     }
   }
 
-  $('#true1').click(function () {
-      socket.emit('vote', 1);
+  $('#btn_oui').click(function () {
+      socket.emit('vote', true);
       navigateTo("loading_page");
   })
 
-  $('#false1').click(function () {
-    socket.emit('vote', 0);
+  $('#btn_non').click(function () {
+    socket.emit('vote', false);
     navigateTo("loading_page");
   })
 
