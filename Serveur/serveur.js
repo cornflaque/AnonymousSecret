@@ -18,6 +18,7 @@ var users = new Array;
 var nbusers = 0;
 var nbVotants = 0;
 var nbOui = 0;
+var nbPredict = 0;
 var nbTours = 5;
 var questions = [
 	"J’ai déjà volé dans un magasin",
@@ -87,12 +88,27 @@ io.sockets.on("connection",function(socket) {
 
 	// Vote du joueur
 	socket.on("vote", function (reponse) {
-			nbVotants += 1;
-			if(reponse) {
-				nbOui += 1;}
-			if(nbVotants == nbusers){io.emit("finVote");}
-			console.log("Joueur a voté: " + reponse);
-		});
+		nbVotants += 1;
+		if(reponse) {
+			nbOui += 1;}
+		if(nbVotants == nbusers){io.emit("finVote");}
+	});
+
+	socket.on("predict", function () {
+		nbPredict += 1;
+		if(nbPredict == nbusers){io.emit("finPredict");}
+	});
+
+	socket.on('finPartie', function(){
+		socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
+			  if (a.score < b.score)
+			     return -1;
+			  if (a.score > b.score)
+			     return 1;
+			  // a doit être égal à b
+			  return 0;
+			}));}
+  })
 
 });
 
