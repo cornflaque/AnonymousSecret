@@ -63,7 +63,8 @@ io.sockets.on('connection',function(socket) {
 
 			// On initialise le score à 0
 			users.push(createJoueur(namejoueur, 0));
-			console.log(users);			socket.emit('waitingothers');
+			console.log(users);
+			socket.emit('waitingothers');
 			created = true;
 			socket.broadcast.emit('joingame');
 		}
@@ -88,4 +89,3 @@ io.sockets.on('connection',function(socket) {
 
 //TODO : réussir a intégrer le code de predict.js dans le client ou le serveur
 //TODO : configurer le nombre max du slider pour être le nombre de joueur
-//TODO : ajouter un bouton dans la page de predict pour pouvoir valider

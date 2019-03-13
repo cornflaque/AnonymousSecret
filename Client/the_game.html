@@ -38,8 +38,7 @@
 <div id="loading_page">
   <div class="centrer">
     <div class="text-center">
-      <div class="message">
-        <p>En attente des autres joueurs...</p>
+      <div class="message" id="loading_message">
       </div>
       <div class="spinner-border text-light" style="width: 6rem; height: 6rem;" role="status">
         <span class="sr-only">Loading...</span>
@@ -67,12 +66,13 @@
     <div class="text-center">
       <div class="message">
         <p>Combien de joueurs ont répondu oui à :</p>
-        <p>[Mettre la question]</p>
+        <p id="question_predict"></p>
       </div>
     </div>
     <div class="centrer">
       <div class="slider" id="slider">
       </div>
+      <button type="button" class="btn btn-success btn-lg btn-block" id="btnPredict">Valider</button>
     </div>
   </div>
   <script src="predict.js"></script>

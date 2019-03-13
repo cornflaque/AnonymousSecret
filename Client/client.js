@@ -3,12 +3,14 @@
   var socket = io.connect('http://localhost:8080');
   // Pages du jeu
   var pages = ['home', 'loading_page', 'predict', 'ranking', 'result','game']
+  var prediction = 0;
 
   $('#form').submit(function(event) {
     event.preventDefault();
     // TODO : prevenir si nbjoeurs est null
     socket.emit('newuser', $('#namejoueur').val(), $('#nbjoueur').val())
-    navigateTo('loading_page')
+    navigateTo('loading_page');
+    $('#loading_message').text('En attente des autres joueurs...');
   });
 
   socket.on('newgame', function(){
@@ -23,6 +25,7 @@
   socket.on('waitingothers', function(){
     console.log("waiting");
     navigateTo("loading_page");
+    $('#loading_message').text('En attente des autres joueurs...');
   })
 
   socket.on('beginningame', function(){
@@ -35,6 +38,7 @@
     // TODO
     console.log("finVote")
     navigateTo('predict');
+    //TODO : afficher la bonne question
   })
 
   // Fonction pour naviguer entre les pages
@@ -59,11 +63,18 @@
   $('#true1').click(function () {
       socket.emit('vote', 1);
       navigateTo("loading_page");
+      $('#loading_message').text('En attente que les autres répondent...');
   })
 
   $('#false1').click(function () {
     socket.emit('vote', 0);
     navigateTo("loading_page");
+  })
+
+  $('#btnPredict').click(function () {
+    prediction = $('#slider').data("roundSlider").getValue();
+    navigateTo("loading_page");
+    $('#loading_message').text(prediction);
   })
 
 })(jQuery);
