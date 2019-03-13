@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <!--Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <!--CSS-->
+  <link rel="stylesheet" href="style.css" />
+
+  <title>Login</title>
+</head>
+
+<body>
+
+<div class = centrer style="top:40%">
+  <img src="images/logo.png" style="max-height:250px">
+
+  <form id="form">
+    <div class="form-group">
+      <input id="namejoueur" type="text" class="form-control" placeholder="Enter name">
+    <div>
+    <input id="nbjoueur" min = 3 max =10 style="margin-top: 10px" type="number" class="form-control" placeholder="Enter number">
+    <button id="btngame" style="margin-top: 10px" type="submit" class="btn btn-primary">Créer une partie</button>
+  </div>
+  </div>
+
+  </form>
+</div>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>
