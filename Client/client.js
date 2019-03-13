@@ -35,10 +35,11 @@
   })
 
   socket.on('finVote', function(){
-    // TODO
-    console.log("finVote")
     navigateTo('predict');
-    //TODO : afficher la bonne question
+  })
+
+  socket.on('finPredict', function(){
+    navigateTo('result');
   })
 
   socket.on('goranking',function(users){
@@ -83,6 +84,7 @@
 
   $('#btnPredict').click(function () {
     prediction = $('#slider').data("roundSlider").getValue();
+    socket.emit('predict');
     navigateTo("loading_page");
     $('#loading_message').text(prediction);
   })
