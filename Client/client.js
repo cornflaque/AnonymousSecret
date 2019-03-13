@@ -41,6 +41,16 @@
     //TODO : afficher la bonne question
   })
 
+  socket.on('goranking',function(users){
+  	var list = document.getElementById("todo-list");
+  	for(var i=0;i<users.length;i++){
+  		text = "<li><tr> <th scope=\"row\">"+i+"</th> <td>"+users[i].name+"</td> <td>"+users[i].score+"</td> </tr></li>";
+  		//text = "<li>"+users[i].score+"<input onclick=\"remTache(this)\" type=\"button\" value=\"Supprimer\"></li>";
+  		list.innerHTML+=text;
+  	}
+  	navigateTo('ranking')
+  })
+
   // Fonction pour naviguer entre les pages
   function navigateTo(page) {
     // Si la page existe, on affiche celle-ci et on cache toutes les autres
