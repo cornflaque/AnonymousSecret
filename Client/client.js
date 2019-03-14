@@ -38,9 +38,10 @@
   id = id_c;
 })
 
-  socket.on('beginningame', function(){
+  socket.on('beginningame', function(question){
     // TODO
     console.log("beginninggame_client")
+    $('#questionGame').text(question);
     navigateTo('game');
   })
 
@@ -50,12 +51,9 @@
     $('#questionPredict').text(question);
   })
 
-  socket.on('finPredict', function(){
-    navigateTo('result');
-  })
 
-  socket.on('nombre_oui_envoy', function(nb_oui, nb_votant){
-    // TODO
+  // TODO gestion du score precedente des utilisateurs
+  socket.on('finPredict', function(nb_oui, nb_votant, users){
     nombre_oui=nb_oui;
     nombre_votant=nb_votant;
     var vert =0;
@@ -82,6 +80,10 @@
     console.log("pour="+vert);
     set_progress(vert,rouge);
 
+    var score_tour_int = "Score du tour: "+rouge_int;
+    var score_total_int="Score total: "+users[id-1].score + rouge_int;
+    $('#score_tour').text(score_tour_int);
+    $('#score_total').text(score_total_int);
 
     navigateTo('result');
     socket.emit('score_tour', rouge_int,id);
@@ -91,18 +93,18 @@ function set_progress(_num,_num2){
 	$('#progress').empty();
 	var el_1_width=_num;
 	var el_2_width=_num2;
-//	var el_3_width=0;
-//	var el_4_width=0;
-//if(_num>30){el_1_width=30;}else{el_1_width=_num;}
+	//var el_3_width=0;
+	//var el_4_width=0;
+  //if(_num>30){el_1_width=30;}else{el_1_width=_num;}
 //	if(_num>60){el_2_width=30;}else{el_2_width=_num-el_1_width;}
 //	if(_num>80){el_3_width=30;}else{el_3_width=_num-el_1_width-el_2_width;}
 //	if(_num>90){el_4_width=_num-90;}
 //	var new_font_clor='';
-//	if(_num<55){new_font_clor='color:black';}
+  //	if(_num<55){new_font_clor='color:black';}
 //	$('#progress').append('<div class="progress-text" style="'+new_font_clor+'">'+_num+' %</div>');
 	$('#progress').append('<div class="progress-el" style="background-color:green; width:'+el_1_width+'%;">&nbsp;</div>');
 	$('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_2_width+'%;">&nbsp;</div>');
-//	$('#progress').append('<div class="progress-el" style="background-color:yellow; width:'+el_3_width+'%;">&nbsp;</div>');
+  //$('#progress').append('<div class="progress-el" style="background-color:yellow; width:'+el_3_width+'%;">&nbsp;</div>');
 //	$('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_4_width+'%;">&nbsp;</div>');
 
 }
@@ -153,6 +155,11 @@ function set_progress(_num,_num2){
     socket.emit('predict', prediction);
     navigateTo("loading_page");
     $('#loading_message').text(prediction);
+  })
+
+  $('#new_question').click(function () {
+    socket.emit('new_quest');
+    navigateTo("loading_page");
   })
 
 })(jQuery);

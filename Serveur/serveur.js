@@ -21,6 +21,7 @@ var nbOui = 0;
 var nbPredict = 0;
 var nbTours = 5;
 var currentTour = 1;
+var nbnewquestion =0;
 var questions = [
 	"J’ai déjà volé dans un magasin",
 	"J’ai déjà eu une contravention",
@@ -89,7 +90,7 @@ socket.on('score_tour',function(score,id_client)
 
 				if(users.length == nbusers){
 					console.log("beginninggame")
-					io.emit("beginningame");
+					io.emit("beginningame", questions[currentTour]);
 				}
 				else{
 					console.log("on attend les autres");
@@ -114,8 +115,15 @@ socket.on('score_tour',function(score,id_client)
 		nbPredict += 1;
 		console.log("prediction : " + prediction);
 		if(nbPredict == nbusers){
-			io.emit("finPredict");
-			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+			io.emit("finPredict",nbOui,nbVotants,users);
+		}
+	});
+
+	socket.on("new_quest", function () {
+		nbnewquestion+=1;
+		if(nbnewquestion == nbusers){
+			currentTour+=1;
+			io.emit("beginningame", questions[currentTour]);
 		}
 	});
 
