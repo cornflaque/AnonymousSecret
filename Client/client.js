@@ -45,7 +45,7 @@
   })
 
   socket.on('finVote', function(){
-    navigateTo('result');
+    navigateTo('predict');
   })
 
   socket.on('finPredict', function(){

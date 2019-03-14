@@ -106,13 +106,15 @@ socket.on('score_tour',function(score,id_client)
 
 		if(nbVotants == nbusers){
 			io.emit("finVote");
-			io.emit('nombre_oui_envoy',nbOui,nbVotants);
 		}
 	});
 
 	socket.on("predict", function () {
 		nbPredict += 1;
-		if(nbPredict == nbusers){io.emit("finPredict");}
+		if(nbPredict == nbusers){
+			io.emit("finPredict");
+			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+		}
 	});
 
 	socket.on('finPartie', function(){
