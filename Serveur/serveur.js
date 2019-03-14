@@ -110,8 +110,9 @@ socket.on('score_tour',function(score,id_client)
 		}
 	});
 
-	socket.on("predict", function () {
+	socket.on("predict", function (prediction) {
 		nbPredict += 1;
+		console.log("prediction : " + prediction);
 		if(nbPredict == nbusers){
 			io.emit("finPredict");
 			io.emit('nombre_oui_envoy',nbOui,nbVotants);
@@ -132,6 +133,3 @@ socket.on('score_tour',function(score,id_client)
 
 
 });
-
-//TODO : réussir a intégrer le code de predict.js dans le client ou le serveur
-//TODO : configurer le nombre max du slider pour être le nombre de joueur

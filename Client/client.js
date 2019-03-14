@@ -4,7 +4,7 @@
   // Pages du jeu
   var pages = ['home', 'loading_page', 'predict', 'ranking', 'result','game']
 
-  var prediction = 2;
+  var prediction = 0;
   var id=0;
   var nombre_oui=0;
   var nombre_votant=0;
@@ -46,9 +46,8 @@
 
   socket.on('finVote', function(nbUsers, question){
     navigateTo('predict');
-    $('#mySlider').append('<input type="range" min="0" max="' + nbUsers + '" value="50" class="slider" id="myRange">')
+    $('#mySlider').append('<input type="range" min="0" max="' + nbUsers + '" value="0" class="slider" id="myRange">')
     $('#questionPredict').text(question);
-    $('#predictValue').text($('#mySlider').value);
   })
 
   socket.on('finPredict', function(){
@@ -149,8 +148,9 @@ function set_progress(_num,_num2){
   })
 
   $('#btnPredict').click(function () {
-    prediction = $('#mySlider').value;
-    socket.emit('predict');
+    var slider = document.getElementById("myRange");
+    prediction = slider.value;
+    socket.emit('predict', prediction);
     navigateTo("loading_page");
     $('#loading_message').text(prediction);
   })
