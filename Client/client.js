@@ -3,12 +3,14 @@
   var socket = io.connect('http://localhost:8080');
   // Pages du jeu
   var pages = ['home', 'loading_page', 'predict', 'ranking', 'result','game']
+
   var prediction = 2;
   var id=0;
   var nombre_oui=0;
   var nombre_votant=0;
   var pourcentage_oui=0;
   var pourcentage_prediction =0;
+  
   $('#form').submit(function(event) {
     event.preventDefault();
     // TODO : prevenir si nbjoeurs est null
@@ -102,8 +104,6 @@ function set_progress(_num,_num2){
 //	$('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_4_width+'%;">&nbsp;</div>');
 
 }
-
-
 
   socket.on('goranking',function(users){
   	var list = document.getElementById("todo-list");

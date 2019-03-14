@@ -45,6 +45,7 @@ function createJoueur(name, score) {
 
 io.sockets.on("connection",function(socket) {
 
+
 	//score du tour
 socket.on('score_tour',function(score,id_client)
 {
@@ -53,6 +54,7 @@ socket.on('score_tour',function(score,id_client)
 })
 
 	// Faire une tempo pour la page de résultat intermédiaire
+
 
 	if(created && users.length < nbusers){
 		socket.emit("joingame");
@@ -101,6 +103,7 @@ socket.on('score_tour',function(score,id_client)
 		nbVotants += 1;
 		if(reponse) {
 			nbOui += 1;}
+
 		if(nbVotants == nbusers){
 			io.emit("finVote");
 		}
@@ -122,6 +125,7 @@ socket.on('score_tour',function(score,id_client)
 			     return 1;
 			  // a doit être égal à b
 			  return 0;
+
 			}));
 		});
 
