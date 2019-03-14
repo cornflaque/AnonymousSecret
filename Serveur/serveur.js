@@ -2,7 +2,6 @@ var PORT = 8080;
 var http = require("http");
 
 httpServer = http.createServer(function(req,res) {
-	console.log("une nouvelle connexion");
 	res.end("Bienvenue");
 });
 
@@ -33,7 +32,6 @@ var questions = [
 	"J'ai déjà pensé que je suis la plus jolie/le plus beau de ce groupe"
 ]
 
-// Fonction pour naviguer entre les pages
 function createJoueur(name, score) {
 
 	var id = users.length + 1;
@@ -47,33 +45,20 @@ function createJoueur(name, score) {
 
 io.sockets.on("connection",function(socket) {
 
-
-	//score du tour
-	socket.on('score_tour',function(score,id_client)
-	{
-		users[id_client-1].score += score;
-		console.log("score="+users[id_client-1].score);
-	})
-
-	// Faire une tempo pour la page de résultat intermédiaire
-
-
 	if(created && users.length < nbusers){
 		socket.emit("joingame");
 	}
-	console.log("Nouveau utilisateur");
 
 	// TODO remettre au bon endroit pour éviter que les gens ne voient le jeu si pas connectés
-	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu){
+	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu) {
 
 		// First user
 		if(!created && nbjoueurs != null){
-			console.log("premier joueur")
 			nbusers = nbjoueurs;
 
 			// On initialise le score à 0
 			users.push(createJoueur(namejoueur, 0));
-			console.log(users);
+			socket.emit('logged');
 			socket.emit('waitingothers');
 			socket.emit('id_chargement',users[users.length-1].id);
 			created = true;
@@ -83,23 +68,24 @@ io.sockets.on("connection",function(socket) {
 
 			// Joining user
 			if(created && users.length < nbusers){
-				console.log("Joining user")
 				users.push(createJoueur(namejoueur, 0));
-				console.log(users);
+				socket.emit('logged');
 				socket.emit('id_chargement',users[users.length-1].id);
 
 				if(users.length == nbusers){
-					console.log("beginninggame")
 					io.emit("beginningame", nbusers, questions[currentTour]);
-
 				}
 				else{
-					console.log("on attend les autres");
 					socket.emit("waitingothers");
 				}
 			}
 		}
-
+})
+		//score du tour
+		socket.on('score_tour',function(score,id_client)
+		{
+			users[id_client-1].score += score;
+		})
 
 		// Vote du joueur
 		socket.on("vote", function (reponse) {
@@ -114,18 +100,20 @@ io.sockets.on("connection",function(socket) {
 
 			socket.on("predict", function (prediction) {
 				nbPredict += 1;
-				console.log("prediction : " + prediction);
 				if(nbPredict == nbusers){
+					console.log(users)
 					io.emit("finPredict",nbOui,nbVotants,users);
 				}
 			});
 
 			socket.on("new_quest", function () {
 				nbResult+=1;
+				console.log(nbResult)
+				console.log(nbusers)
 				if(nbResult == nbusers){
 					currentTour+=1;
 					if(currentTour == nbTours){
-						socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
+						io.emit('goranking',users.sort(function compare(a, b) {
 							if (a.score < b.score)
 							return -1;
 							if (a.score > b.score)
@@ -138,9 +126,8 @@ io.sockets.on("connection",function(socket) {
 						nbOui = 0;
 						nbPredict = 0;
 						nbResult = 0;
-						io.emit("beginningame", questions[currentTour]);
+						io.emit("beginningame", nbusers, questions[currentTour]);
 					}
 				}
 			});
-		})
 	});

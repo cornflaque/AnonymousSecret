@@ -17,8 +17,6 @@
     // Si nbjoueurs est éditable et null, on ne fait rien
     if($('#nbjoueur').is(":hidden") || ($('#nbjoueur').val() != null && $('#nbjoueur').val() != '')){
       socket.emit('newuser', $('#namejoueur').val(), $('#nbjoueur').val())
-      navigateTo('loading_page');
-      $('#loading_message').text('En attente des autres joueurs...');
     }else {
       return;
     }
@@ -33,6 +31,7 @@
     $('#nbjoueur').hide();
   })
 
+  socket.on('logged',function(){
   socket.on('waitingothers', function(){
     console.log("waiting");
     navigateTo("loading_page");
@@ -55,8 +54,6 @@
     slider.oninput = function() {
       $('#currentValue').text(slider.value)
     }
-
-    console.log("beginninggame_client")
     $('#questionGame').text(question);
     navigateTo('game');
   })
@@ -69,7 +66,6 @@
   })
 
 
-  // TODO gestion du score precedente des utilisateurs
   socket.on('finPredict', function(nb_oui, nb_votant, users){
     nombre_oui=nb_oui;
     nombre_votant=nb_votant;
@@ -94,9 +90,7 @@
       vert =prediction/nombre_votant*100;
       rouge = 0;
     }
-    console.log("pour="+vert);
     set_progress(vert,rouge);
-
     var score_tour_int = "Score du tour: "+rouge_int;
     var score_tmp = users[id-1].score + rouge_int
     var score_total_int="Score total: "+ score_tmp;
@@ -108,26 +102,6 @@
 
   })
 
-  function set_progress(_num,_num2){
-    $('#progress').empty();
-    var el_1_width=_num;
-    var el_2_width=_num2;
-    //var el_3_width=0;
-    //var el_4_width=0;
-    //if(_num>30){el_1_width=30;}else{el_1_width=_num;}
-    //	if(_num>60){el_2_width=30;}else{el_2_width=_num-el_1_width;}
-    //	if(_num>80){el_3_width=30;}else{el_3_width=_num-el_1_width-el_2_width;}
-    //	if(_num>90){el_4_width=_num-90;}
-    //	var new_font_clor='';
-    //	if(_num<55){new_font_clor='color:black';}
-    //	$('#progress').append('<div class="progress-text" style="'+new_font_clor+'">'+_num+' %</div>');
-    $('#progress').append('<div class="progress-el" style="background-color:green; width:'+el_1_width+'%;">&nbsp;</div>');
-    $('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_2_width+'%;">&nbsp;</div>');
-    //$('#progress').append('<div class="progress-el" style="background-color:yellow; width:'+el_3_width+'%;">&nbsp;</div>');
-    //	$('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_4_width+'%;">&nbsp;</div>');
-
-  }
-
   socket.on('goranking',function(users){
     var list = document.getElementById("rankingList");
     for(var i=0;i<users.length;i++){
@@ -137,6 +111,18 @@
     }
     navigateTo('ranking');
   })
+
+})
+
+  function set_progress(_num,_num2){
+    $('#progress').empty();
+    var el_1_width=_num;
+    var el_2_width=_num2;
+    $('#progress').append('<div class="progress-el" style="background-color:green; width:'+el_1_width+'%;">&nbsp;</div>');
+    $('#progress').append('<div class="progress-el" style="background-color:red; width:'+el_2_width+'%;">&nbsp;</div>');
+  }
+
+
 
   // Fonction pour naviguer entre les pages
   function navigateTo(page) {
@@ -177,6 +163,7 @@
   })
 
   $('#new_question').click(function () {
+    console.log("nvelle question");
     socket.emit('new_quest');
     navigateTo("loading_page");
     $('#loading_message').text('En attente de la validation des autres joueurs...');
