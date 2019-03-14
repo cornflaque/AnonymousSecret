@@ -44,14 +44,12 @@ function createJoueur(name, score) {
 }
 
 io.sockets.on("connection",function(socket) {
-
-
 	//score du tour
-socket.on('score_tour',function(score,id_client)
-{
-	users[id_client-1].score += score;
-	  console.log("score="+users[id_client-1].score);
-})
+	socket.on('score_tour',function(score,id_client)
+	{
+		users[id_client-1].score += score;
+		  console.log("score="+users[id_client-1].score);
+	})
 
 	// Faire une tempo pour la page de résultat intermédiaire
 
@@ -62,7 +60,6 @@ socket.on('score_tour',function(score,id_client)
 	console.log("Nouveau utilisateur");
 
 	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu){
-
 		console.log("Name : "+namejoueur+"   nbjoueurs : "+nbjoueurs);
 		// First user
 		if(!created && nbjoueurs != null){
@@ -78,7 +75,6 @@ socket.on('score_tour',function(score,id_client)
 			socket.broadcast.emit("joingame");
 		}
 		else{
-
 			// Joining user
 			if(created && users.length < nbusers){
 				console.log("Joining user")
@@ -105,7 +101,7 @@ socket.on('score_tour',function(score,id_client)
 			nbOui += 1;}
 
 		if(nbVotants == nbusers){
-			io.emit("finVote");
+			io.emit("finVote", nbUsers);
 			io.emit('nombre_oui_envoy',nbOui,nbVotants);
 		}
 	});
@@ -117,18 +113,15 @@ socket.on('score_tour',function(score,id_client)
 
 	socket.on('finPartie', function(){
 		socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
-			  if (a.score < b.score)
-			     return -1;
-			  if (a.score > b.score)
-			     return 1;
-			  // a doit être égal à b
-			  return 0;
+		  if (a.score < b.score)
+		     return -1;
+		  if (a.score > b.score)
+		     return 1;
+		  // a doit être égal à b
+		  return 0;
 
-			}));
-		});
-
-
+		}));
+	});
 });
 
-//TODO : réussir a intégrer le code de predict.js dans le client ou le serveur
 //TODO : configurer le nombre max du slider pour être le nombre de joueur
