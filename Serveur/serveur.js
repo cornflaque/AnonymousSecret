@@ -19,8 +19,9 @@ var nbusers = 0;
 var nbVotants = 0;
 var nbOui = 0;
 var nbPredict = 0;
-var nbTours = 5;
-var currentTour = 1;
+var nbResult = 0;
+var nbTours = 4;
+var currentTour = 0;
 var questions = [
 	"J’ai déjà volé dans un magasin",
 	"J’ai déjà eu une contravention",
@@ -89,7 +90,8 @@ socket.on('score_tour',function(score,id_client)
 
 				if(users.length == nbusers){
 					console.log("beginninggame")
-					io.emit("beginningame", nbusers);
+					io.emit("beginningame", nbusers, questions[currentTour]);
+
 				}
 				else{
 					console.log("on attend les autres");
@@ -110,28 +112,34 @@ socket.on('score_tour',function(score,id_client)
 		}
 	});
 
-	socket.on("predict", function () {
+	socket.on("predict", function (prediction) {
 		nbPredict += 1;
+		console.log("prediction : " + prediction);
 		if(nbPredict == nbusers){
-			io.emit("finPredict");
-			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+			io.emit("finPredict",nbOui,nbVotants,users);
 		}
 	});
 
-	socket.on('finPartie', function(){
-		socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
-			  if (a.score < b.score)
-			     return -1;
-			  if (a.score > b.score)
-			     return 1;
-			  // a doit être égal à b
-			  return 0;
-
-			}));
-		});
-
-
+	socket.on("new_quest", function () {
+		nbResult+=1;
+		if(nbResult == nbusers){
+			currentTour+=1;
+			if(currentTour == nbTours){
+				socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
+				  if (a.score < b.score)
+				     return -1;
+				  if (a.score > b.score)
+				     return 1;
+				  // a doit être égal à b
+				  return 0;
+				}));
+			} else{
+				nbVotants = 0;
+				nbOui = 0;
+				nbPredict = 0;
+				nbResult = 0;
+				io.emit("beginningame", questions[currentTour]);
+			}
+		}
+	});
 });
-
-//TODO : réussir a intégrer le code de predict.js dans le client ou le serveur
-//TODO : configurer le nombre max du slider pour être le nombre de joueur
