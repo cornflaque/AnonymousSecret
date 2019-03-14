@@ -20,6 +20,7 @@ var nbVotants = 0;
 var nbOui = 0;
 var nbPredict = 0;
 var nbTours = 5;
+var currentTour = 1;
 var questions = [
 	"J’ai déjà volé dans un magasin",
 	"J’ai déjà eu une contravention",
@@ -44,12 +45,14 @@ function createJoueur(name, score) {
 }
 
 io.sockets.on("connection",function(socket) {
+
+
 	//score du tour
-	socket.on('score_tour',function(score,id_client)
-	{
-		users[id_client-1].score += score;
-		  console.log("score="+users[id_client-1].score);
-	})
+socket.on('score_tour',function(score,id_client)
+{
+	users[id_client-1].score += score;
+	  console.log("score="+users[id_client-1].score);
+})
 
 	// Faire une tempo pour la page de résultat intermédiaire
 
@@ -60,6 +63,7 @@ io.sockets.on("connection",function(socket) {
 	console.log("Nouveau utilisateur");
 
 	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu){
+
 		console.log("Name : "+namejoueur+"   nbjoueurs : "+nbjoueurs);
 		// First user
 		if(!created && nbjoueurs != null){
@@ -75,6 +79,7 @@ io.sockets.on("connection",function(socket) {
 			socket.broadcast.emit("joingame");
 		}
 		else{
+
 			// Joining user
 			if(created && users.length < nbusers){
 				console.log("Joining user")
@@ -101,27 +106,32 @@ io.sockets.on("connection",function(socket) {
 			nbOui += 1;}
 
 		if(nbVotants == nbusers){
-			io.emit("finVote", nbUsers);
-			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+			io.emit("finVote", nbusers, questions[currentTour]);
 		}
 	});
 
 	socket.on("predict", function () {
 		nbPredict += 1;
-		if(nbPredict == nbusers){io.emit("finPredict");}
+		if(nbPredict == nbusers){
+			io.emit("finPredict");
+			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+		}
 	});
 
 	socket.on('finPartie', function(){
 		socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
-		  if (a.score < b.score)
-		     return -1;
-		  if (a.score > b.score)
-		     return 1;
-		  // a doit être égal à b
-		  return 0;
+			  if (a.score < b.score)
+			     return -1;
+			  if (a.score > b.score)
+			     return 1;
+			  // a doit être égal à b
+			  return 0;
 
-		}));
-	});
+			}));
+		});
+
+
 });
 
+//TODO : réussir a intégrer le code de predict.js dans le client ou le serveur
 //TODO : configurer le nombre max du slider pour être le nombre de joueur

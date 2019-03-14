@@ -7,8 +7,9 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <!--CSS-->
 <link rel="stylesheet" href="style.css" />
- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> 
-
+<!--RoundSlider-->
+ <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <head>
   <title>AnonymousSecret</title>
 </head>
@@ -62,18 +63,17 @@
   <div class="centrer">
     <div class="text-center">
       <div class="message">
-        <p>Combien de joueurs ont répondu oui à :</p>
+        <p id="questionPredict"></p>
         <p id="question_predict"></p>
       </div>
     </div>
     <div class="centrer">
-      <div class="slidecontainer">
+      <div class="slidecontainer" id="mySlider">
       </div>
-      <div id="predictionValue"></div>
-      <button type="button" class="btn btn-success btn-lg btn-block" id="btnPredict">Valider</button>
+      <div id="predictValue"></div>
     </div>
+    <button type="button" class="btn btn-success btn-lg btn-block" id="btnPredict">Valider</button>
   </div>
-  <script src="predict.js"></script>
 </div>
 
 <div id="ranking">

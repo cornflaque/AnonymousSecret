@@ -88,12 +88,10 @@ body {
    border-color:black;
    //border-width:4px;
  }
-
  .progress-el{
    display:inline-block;
    height:40px;
  }
-
  .progress-text{
    position:fixed;
    color:white;
@@ -103,12 +101,14 @@ body {
    line-height:40px;
    text-align:center;
    font-size:24pt;
+
  }
 
  .slidecontainer {
    width: 100%; /* Width of the outside container */
  }
- 
+
+ /* The slider itself */
  .slider {
    -webkit-appearance: none;  /* Override default CSS styles */
    appearance: none;

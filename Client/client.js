@@ -44,10 +44,11 @@
     navigateTo('game');
   })
 
-  socket.on('finVote', function(nbUsers){
+  socket.on('finVote', function(nbUsers, question){
     navigateTo('predict');
-    $("#slidecontainer").append('<input type="range" min="0" max="' + nbUsers + '" value="50" class="slider" id="myRange">'');
-    
+    $('#mySlider').append('<input type="range" min="0" max="' + nbUsers + '" value="50" class="slider" id="myRange">')
+    $('#questionPredict').text(question);
+    $('#predictValue').text($('#mySlider').value);
   })
 
   socket.on('finPredict', function(){
@@ -85,7 +86,7 @@
 
     navigateTo('result');
     socket.emit('score_tour', rouge_int,id);
-  })
+})
 
 function set_progress(_num,_num2){
 	$('#progress').empty();
@@ -148,7 +149,7 @@ function set_progress(_num,_num2){
   })
 
   $('#btnPredict').click(function () {
-    prediction = $('#predictionValue').text();
+    prediction = $('#mySlider').value;
     socket.emit('predict');
     navigateTo("loading_page");
     $('#loading_message').text(prediction);
