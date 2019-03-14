@@ -5,10 +5,10 @@ La deuxième étape consiste à prédir le nombre de personne ayant répondu oui
 Le joueur se trompant le moins tout au long des tours du jeu, gagne la partie.
 
 # Auteurs
-Anthony Bonnefois
-Doriane Jaunault
-Mathilde Paris
-Thibault Poulhalec
+- Anthony Bonnefois (antheau)
+- Doriane Jaunault (cornflaque)
+- Mathilde Paris (naoer3)
+- Thibault Poulhalec (poulhoulouc)
 
 # Axes d'améliorations
 1. Pouvoir créer plusieurs parties

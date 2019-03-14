@@ -51,9 +51,9 @@
     $('#questionPredict').text(question);
   })
 
+
   // TODO gestion du score precedente des utilisateurs
   socket.on('finPredict', function(nb_oui, nb_votant, users){
-
     nombre_oui=nb_oui;
     nombre_votant=nb_votant;
     var vert =0;
