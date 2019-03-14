@@ -19,9 +19,9 @@ var nbusers = 0;
 var nbVotants = 0;
 var nbOui = 0;
 var nbPredict = 0;
-var nbTours = 5;
-var currentTour = 1;
-var nbnewquestion =0;
+var nbResult = 0;
+var nbTours = 4;
+var currentTour = 0;
 var questions = [
 	"J’ai déjà volé dans un magasin",
 	"J’ai déjà eu une contravention",
@@ -120,24 +120,25 @@ socket.on('score_tour',function(score,id_client)
 	});
 
 	socket.on("new_quest", function () {
-		nbnewquestion+=1;
-		if(nbnewquestion == nbusers){
+		nbResult+=1;
+		if(nbResult == nbusers){
 			currentTour+=1;
-			io.emit("beginningame", questions[currentTour]);
+			if(currentTour == nbTours){
+				socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
+				  if (a.score < b.score)
+				     return -1;
+				  if (a.score > b.score)
+				     return 1;
+				  // a doit être égal à b
+				  return 0;
+				}));
+			} else{
+				nbVotants = 0;
+				nbOui = 0;
+				nbPredict = 0;
+				nbResult = 0;
+				io.emit("beginningame", questions[currentTour]);
+			}
 		}
 	});
-
-	socket.on('finPartie', function(){
-		socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
-			  if (a.score < b.score)
-			     return -1;
-			  if (a.score > b.score)
-			     return 1;
-			  // a doit être égal à b
-			  return 0;
-
-			}));
-		});
-
-
 });
