@@ -33,7 +33,6 @@
 
   socket.on('logged',function(){
   socket.on('waitingothers', function(){
-    console.log("waiting");
     navigateTo("loading_page");
     $('#loading_message').text('En attente des autres joueurs...');
   })
@@ -163,7 +162,6 @@
   })
 
   $('#new_question').click(function () {
-    console.log("nvelle question");
     socket.emit('new_quest');
     navigateTo("loading_page");
     $('#loading_message').text('En attente de la validation des autres joueurs...');

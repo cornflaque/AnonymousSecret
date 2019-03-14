@@ -49,7 +49,6 @@ io.sockets.on("connection",function(socket) {
 		socket.emit("joingame");
 	}
 
-	// TODO remettre au bon endroit pour éviter que les gens ne voient le jeu si pas connectés
 	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu) {
 
 		// First user
@@ -101,15 +100,12 @@ io.sockets.on("connection",function(socket) {
 			socket.on("predict", function (prediction) {
 				nbPredict += 1;
 				if(nbPredict == nbusers){
-					console.log(users)
 					io.emit("finPredict",nbOui,nbVotants,users);
 				}
 			});
 
 			socket.on("new_quest", function () {
 				nbResult+=1;
-				console.log(nbResult)
-				console.log(nbusers)
 				if(nbResult == nbusers){
 					currentTour+=1;
 					if(currentTour == nbTours){
