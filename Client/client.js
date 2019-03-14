@@ -10,7 +10,7 @@
   var nombre_votant=0;
   var pourcentage_oui=0;
   var pourcentage_prediction =0;
-  
+
   $('#form').submit(function(event) {
     event.preventDefault();
     // TODO : prevenir si nbjoeurs est null
@@ -44,8 +44,11 @@
     navigateTo('game');
   })
 
-  socket.on('finVote', function(){
+  socket.on('finVote', function(nbUsers, question){
     navigateTo('predict');
+    $('#mySlider').append('<input type="range" min="0" max="' + nbUsers + '" value="50" class="slider" id="myRange">')
+    $('#questionPredict').text(question);
+    $('#predictValue').text($('#mySlider').value);
   })
 
   socket.on('finPredict', function(){
@@ -53,36 +56,36 @@
   })
 
   socket.on('nombre_oui_envoy', function(nb_oui, nb_votant){
-  // TODO
-  nombre_oui=nb_oui;
-  nombre_votant=nb_votant;
-  var vert =0;
-  var rouge = 0;
-  var rouge_int=0;
-  if(prediction>nombre_oui)
-  {
-    vert = nombre_oui/nombre_votant*100;
-    rouge_int=prediction-nombre_oui;
-    rouge = (prediction-nombre_oui)/nombre_votant*100;
-  }
+    // TODO
+    nombre_oui=nb_oui;
+    nombre_votant=nb_votant;
+    var vert =0;
+    var rouge = 0;
+    var rouge_int=0;
+    if(prediction>nombre_oui)
+    {
+      vert = nombre_oui/nombre_votant*100;
+      rouge_int=prediction-nombre_oui;
+      rouge = (prediction-nombre_oui)/nombre_votant*100;
+    }
 
-  if(prediction<nombre_oui)
-  {
-    vert =prediction/nombre_votant*100;
-    rouge_int=nombre_oui-prediction;
-    rouge = (nombre_oui-prediction)/nombre_votant*100;
-  }
-  if(prediction==nombre_oui)
-  {
-    vert =prediction/nombre_votant*100;
-    rouge = 0;
-  }
-  console.log("pour="+vert);
-  set_progress(vert,rouge);
+    if(prediction<nombre_oui)
+    {
+      vert =prediction/nombre_votant*100;
+      rouge_int=nombre_oui-prediction;
+      rouge = (nombre_oui-prediction)/nombre_votant*100;
+    }
+    if(prediction==nombre_oui)
+    {
+      vert =prediction/nombre_votant*100;
+      rouge = 0;
+    }
+    console.log("pour="+vert);
+    set_progress(vert,rouge);
 
 
-  navigateTo('result');
-  socket.emit('score_tour', rouge_int,id);
+    navigateTo('result');
+    socket.emit('score_tour', rouge_int,id);
 })
 
 function set_progress(_num,_num2){
@@ -146,7 +149,7 @@ function set_progress(_num,_num2){
   })
 
   $('#btnPredict').click(function () {
-    prediction = $('#slider').data("roundSlider").getValue();
+    prediction = $('#mySlider').value;
     socket.emit('predict');
     navigateTo("loading_page");
     $('#loading_message').text(prediction);

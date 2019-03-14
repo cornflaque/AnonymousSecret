@@ -20,6 +20,7 @@ var nbVotants = 0;
 var nbOui = 0;
 var nbPredict = 0;
 var nbTours = 5;
+var currentTour = 1;
 var questions = [
 	"J’ai déjà volé dans un magasin",
 	"J’ai déjà eu une contravention",
@@ -105,7 +106,7 @@ socket.on('score_tour',function(score,id_client)
 			nbOui += 1;}
 
 		if(nbVotants == nbusers){
-			io.emit("finVote");
+			io.emit("finVote", nbusers, questions[currentTour]);
 		}
 	});
 
