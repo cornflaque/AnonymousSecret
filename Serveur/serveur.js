@@ -49,11 +49,11 @@ io.sockets.on("connection",function(socket) {
 
 
 	//score du tour
-socket.on('score_tour',function(score,id_client)
-{
-	users[id_client-1].score += score;
-	  console.log("score="+users[id_client-1].score);
-})
+	socket.on('score_tour',function(score,id_client)
+	{
+		users[id_client-1].score += score;
+		console.log("score="+users[id_client-1].score);
+	})
 
 	// Faire une tempo pour la page de résultat intermédiaire
 
@@ -63,7 +63,7 @@ socket.on('score_tour',function(score,id_client)
 	}
 	console.log("Nouveau utilisateur");
 
-// TODO remettre au bon endroit pour éviter que les gens ne voient le jeu si pas connectés
+	// TODO remettre au bon endroit pour éviter que les gens ne voient le jeu si pas connectés
 	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu){
 
 		// First user
@@ -99,47 +99,48 @@ socket.on('score_tour',function(score,id_client)
 				}
 			}
 		}
-	})
 
-	// Vote du joueur
-	socket.on("vote", function (reponse) {
-		nbVotants += 1;
-		if(reponse) {
-			nbOui += 1;}
 
-		if(nbVotants == nbusers){
-			io.emit("finVote", questions[currentTour]);
-		}
+		// Vote du joueur
+		socket.on("vote", function (reponse) {
+			nbVotants += 1;
+			if(reponse) {
+				nbOui += 1;}
+
+				if(nbVotants == nbusers){
+					io.emit("finVote", questions[currentTour]);
+				}
+			});
+
+			socket.on("predict", function (prediction) {
+				nbPredict += 1;
+				console.log("prediction : " + prediction);
+				if(nbPredict == nbusers){
+					io.emit("finPredict",nbOui,nbVotants,users);
+				}
+			});
+
+			socket.on("new_quest", function () {
+				nbResult+=1;
+				if(nbResult == nbusers){
+					currentTour+=1;
+					if(currentTour == nbTours){
+						socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
+							if (a.score < b.score)
+							return -1;
+							if (a.score > b.score)
+							return 1;
+							// a doit être égal à b
+							return 0;
+						}));
+					} else{
+						nbVotants = 0;
+						nbOui = 0;
+						nbPredict = 0;
+						nbResult = 0;
+						io.emit("beginningame", questions[currentTour]);
+					}
+				}
+			});
+		})
 	});
-
-	socket.on("predict", function (prediction) {
-		nbPredict += 1;
-		console.log("prediction : " + prediction);
-		if(nbPredict == nbusers){
-			io.emit("finPredict",nbOui,nbVotants,users);
-		}
-	});
-
-	socket.on("new_quest", function () {
-		nbResult+=1;
-		if(nbResult == nbusers){
-			currentTour+=1;
-			if(currentTour == nbTours){
-				socket.broadcast.emit('goranking',users.sort(function compare(a, b) {
-				  if (a.score < b.score)
-				     return -1;
-				  if (a.score > b.score)
-				     return 1;
-				  // a doit être égal à b
-				  return 0;
-				}));
-			} else{
-				nbVotants = 0;
-				nbOui = 0;
-				nbPredict = 0;
-				nbResult = 0;
-				io.emit("beginningame", questions[currentTour]);
-			}
-		}
-	});
-});
