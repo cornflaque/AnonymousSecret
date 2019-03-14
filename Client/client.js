@@ -10,13 +10,18 @@
   var nombre_votant=0;
   var pourcentage_oui=0;
   var pourcentage_prediction =0;
+  var slider = document.getElementById("mySlider");
 
   $('#form').submit(function(event) {
     event.preventDefault();
-    // TODO : prevenir si nbjoeurs est null
+    // Si nbjoueurs est éditable et null, on ne fait rien
+    if($('#nbjoueur').is(":hidden") || ($('#nbjoueur').val() != null && $('#nbjoueur').val() != '')){
     socket.emit('newuser', $('#namejoueur').val(), $('#nbjoueur').val())
     navigateTo('loading_page');
     $('#loading_message').text('En attente des autres joueurs...');
+  }else {
+    return;
+  }
   });
 
   socket.on('newgame', function(){
@@ -35,20 +40,32 @@
   })
 
   socket.on('id_chargement', function(id_c){
-  id = id_c;
-})
+    id = id_c;
+  })
 
-  socket.on('beginningame', function(question){
-    // TODO
+  socket.on('beginningame', function(nbUsers, question){
+    // Initialisation du slider
+    slider.max = nbUsers;
+    slider.value = slider.max / 2;
+
+    // On initialise la valeur affiché du slider
+    $('#currentValue').text(slider.value)
+
+    // A chaque changement de la valeur du slider on met à jour la valeur
+    slider.oninput = function() {
+      $('#currentValue').text(slider.value)
+    }
+    
     console.log("beginninggame_client")
     $('#questionGame').text(question);
     navigateTo('game');
   })
 
-  socket.on('finVote', function(nbUsers, question){
+  socket.on('finVote', function(question){
     navigateTo('predict');
-    $('#mySlider').append('<input type="range" min="0" max="' + nbUsers + '" value="0" class="slider" id="myRange">')
     $('#questionPredict').text(question);
+    $('#predictValue').text(slider.value);
+
   })
 
 
@@ -88,6 +105,7 @@
 
     navigateTo('result');
     socket.emit('score_tour', rouge_int,id);
+
 })
 
 function set_progress(_num,_num2){
@@ -124,15 +142,15 @@ function set_progress(_num,_num2){
   function navigateTo(page) {
     // Si la page existe, on affiche celle-ci et on cache toutes les autres
     if(pages.includes(page)){
-    pages.forEach(function(element) {
-      if(element===page){
-      $('#'+element).show();
+      pages.forEach(function(element) {
+        if(element===page){
+          $('#'+element).show();
+        }
+        else{
+          $('#'+element).hide();
+        }
+      });
     }
-      else{
-      $('#'+element).hide();
-    }
-    });
-  }
     // Sinon on ne fait rien
     else{
       console.log("La page "+page+" n'existe pas");
@@ -140,9 +158,9 @@ function set_progress(_num,_num2){
   }
 
   $('#btn_oui').click(function () {
-      socket.emit('vote', true);
-      navigateTo("loading_page");
-      $('#loading_message').text('En attente que les autres répondent...');
+    socket.emit('vote', true);
+    navigateTo("loading_page");
+    $('#loading_message').text('En attente que les autres répondent...');
   })
 
   $('#btn_non').click(function () {
