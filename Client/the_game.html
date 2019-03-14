@@ -63,15 +63,14 @@
   <div class="centrer">
     <div class="text-center">
       <div class="message">
+        <p>Combien de joueurs ont répondu 'oui' à la question suivante :</p>
         <p id="questionPredict"></p>
-        <p id="question_predict"></p>
       </div>
     </div>
-    <div class="centrer">
-      <div class="slidecontainer" id="mySlider">
+      <div class="slidecontainer">
+        <input type="range" min="0" max="10" value="5" class="slider" id="mySlider">
+        <div id="currentValue" class="text-center"></div>
       </div>
-      <div id="predictValue"></div>
-    </div>
     <button type="button" class="btn btn-success btn-lg btn-block" id="btnPredict">Valider</button>
   </div>
 </div>

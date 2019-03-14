@@ -62,9 +62,9 @@ socket.on('score_tour',function(score,id_client)
 	}
 	console.log("Nouveau utilisateur");
 
+// TODO remettre au bon endroit pour éviter que les gens ne voient le jeu si pas connectés
 	socket.on("newuser", function(namejoueur, nbjoueurs, mode_jeu){
 
-		console.log("Name : "+namejoueur+"   nbjoueurs : "+nbjoueurs);
 		// First user
 		if(!created && nbjoueurs != null){
 			console.log("premier joueur")
@@ -89,7 +89,7 @@ socket.on('score_tour',function(score,id_client)
 
 				if(users.length == nbusers){
 					console.log("beginninggame")
-					io.emit("beginningame");
+					io.emit("beginningame", nbusers);
 				}
 				else{
 					console.log("on attend les autres");
@@ -106,7 +106,7 @@ socket.on('score_tour',function(score,id_client)
 			nbOui += 1;}
 
 		if(nbVotants == nbusers){
-			io.emit("finVote", nbusers, questions[currentTour]);
+			io.emit("finVote", questions[currentTour]);
 		}
 	});
 
