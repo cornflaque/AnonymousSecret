@@ -81,7 +81,8 @@
     set_progress(vert,rouge);
 
     var score_tour_int = "Score du tour: "+rouge_int;
-    var score_total_int="Score total: "+users[id-1].score + rouge_int;
+    var score_tmp = users[id-1].score + rouge_int
+    var score_total_int="Score total: "+ score_tmp;
     $('#score_tour').text(score_tour_int);
     $('#score_total').text(score_total_int);
 
@@ -110,13 +111,13 @@ function set_progress(_num,_num2){
 }
 
   socket.on('goranking',function(users){
-  	var list = document.getElementById("todo-list");
+  	var list = document.getElementById("rankingList");
   	for(var i=0;i<users.length;i++){
-  		text = "<li><tr> <th scope=\"row\">"+i+"</th> <td>"+users[i].name+"</td> <td>"+users[i].score+"</td> </tr></li>";
-  		//text = "<li>"+users[i].score+"<input onclick=\"remTache(this)\" type=\"button\" value=\"Supprimer\"></li>";
+      var rang = i + 1;
+      text = '<tr><th scope="row">' + rang + '</th><td>' + users[i].name + '</td><td>' + users[i].score + '</td></tr>';
   		list.innerHTML+=text;
   	}
-  	navigateTo('ranking')
+  	navigateTo('ranking');
   })
 
   // Fonction pour naviguer entre les pages
@@ -147,6 +148,7 @@ function set_progress(_num,_num2){
   $('#btn_non').click(function () {
     socket.emit('vote', false);
     navigateTo("loading_page");
+    $('#loading_message').text('En attente que les autres répondent...');
   })
 
   $('#btnPredict').click(function () {
@@ -154,12 +156,13 @@ function set_progress(_num,_num2){
     prediction = slider.value;
     socket.emit('predict', prediction);
     navigateTo("loading_page");
-    $('#loading_message').text(prediction);
+    $('#loading_message').text('En attente de la prédiction des autres joueurs...');
   })
 
   $('#new_question').click(function () {
     socket.emit('new_quest');
     navigateTo("loading_page");
+    $('#loading_message').text('En attente de la validation des autres joueurs...');
   })
 
 })(jQuery);
