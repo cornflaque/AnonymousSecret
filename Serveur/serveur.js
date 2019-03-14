@@ -103,7 +103,6 @@ socket.on('score_tour',function(score,id_client)
 			nbOui += 1;}
 		if(nbVotants == nbusers){
 			io.emit("finVote");
-			io.emit('nombre_oui_envoy',nbOui,nbVotants);
 		}
 	});
 
@@ -111,6 +110,7 @@ socket.on('score_tour',function(score,id_client)
 		nbPredict += 1;
 		if(nbPredict == nbusers){
 			io.emit("finPredict");
+			io.emit('nombre_oui_envoy',nbOui,nbVotants);
 		}
 	});
 
