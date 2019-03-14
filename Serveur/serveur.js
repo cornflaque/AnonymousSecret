@@ -45,7 +45,16 @@ function createJoueur(name, score) {
 
 io.sockets.on("connection",function(socket) {
 
+
+	//score du tour
+socket.on('score_tour',function(score,id_client)
+{
+	users[id_client-1].score += score;
+	  console.log("score="+users[id_client-1].score);
+})
+
 	// Faire une tempo pour la page de résultat intermédiaire
+
 
 	if(created && users.length < nbusers){
 		socket.emit("joingame");
@@ -64,6 +73,7 @@ io.sockets.on("connection",function(socket) {
 			users.push(createJoueur(namejoueur, 0));
 			console.log(users);
 			socket.emit('waitingothers');
+			socket.emit('id_chargement',users[users.length-1].id);
 			created = true;
 			socket.broadcast.emit("joingame");
 		}
@@ -74,6 +84,8 @@ io.sockets.on("connection",function(socket) {
 				console.log("Joining user")
 				users.push(createJoueur(namejoueur, 0));
 				console.log(users);
+				socket.emit('id_chargement',users[users.length-1].id);
+
 				if(users.length == nbusers){
 					console.log("beginninggame")
 					io.emit("beginningame");
@@ -91,7 +103,11 @@ io.sockets.on("connection",function(socket) {
 		nbVotants += 1;
 		if(reponse) {
 			nbOui += 1;}
-		if(nbVotants == nbusers){io.emit("finVote");}
+
+		if(nbVotants == nbusers){
+			io.emit("finVote");
+			io.emit('nombre_oui_envoy',nbOui,nbVotants);
+		}
 	});
 
 	socket.on("predict", function () {
@@ -107,8 +123,10 @@ io.sockets.on("connection",function(socket) {
 			     return 1;
 			  // a doit être égal à b
 			  return 0;
-			}));}
-  })
+
+			}));
+		});
+
 
 });
 
